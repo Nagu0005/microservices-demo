@@ -46,16 +46,15 @@ spec:
           RETRY_INTERVAL=10
           for i in $(seq 1 $MAX_RETRIES); do
             echo "Attempt $i: Pinging frontend: ${FRONTEND_ADDR}..."
-            STATUSCODE=$(wget --server-response http://${FRONTEND_ADDR} 2>&1 | awk '/^  HTTP/{print $2}')
-            if [ $STATUSCODE -eq 200 ]; then
-                echo "Frontend is reachable."
-                exit 0
-            fi
-            echo "Error: Could not reach frontend - Status code: ${STATUSCODE}"
+            nc -z frontend 80  && exit 0
+            echo "Frontend is reachable."
             sleep $RETRY_INTERVAL
           done
           echo "Failed to reach frontend after $MAX_RETRIES attempts."
           exit 1
+        env:
+        - name: FRONTEND_ADDR
+          value: "frontend:80"
         name: frontend-check
         securityContext:
           allowPrivilegeEscalation: false
@@ -65,9 +64,6 @@ spec:
           privileged: false
           readOnlyRootFilesystem: true
         image: busybox:latest
-        env:
-        - name: FRONTEND_ADDR
-          value: "frontend:80"
       containers:
       - name: main
         securityContext:
@@ -77,7 +73,8 @@ spec:
               - ALL
           privileged: false
           readOnlyRootFilesystem: true
-        image: loadgenerator
+        image: nagu0087/loadgenerator:1.0
+        imagePullPolicy: Always
         env:
         - name: FRONTEND_ADDR
           value: "frontend:80"

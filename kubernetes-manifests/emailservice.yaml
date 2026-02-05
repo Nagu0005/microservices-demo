@@ -43,7 +43,8 @@ spec:
               - ALL
           privileged: false
           readOnlyRootFilesystem: true
-        image: emailservice
+        image: nagu0087/emailservice:1.0
+        imagePullPolicy: Always
         ports:
         - containerPort: 8080
         env:

@@ -43,7 +43,8 @@ spec:
               - ALL
           privileged: false
           readOnlyRootFilesystem: true
-        image: adservice
+        image: nagu0087/microservice-demo:adservice-1.0
+        imagePullPolicy: Always
         ports:
         - containerPort: 9555
         env:

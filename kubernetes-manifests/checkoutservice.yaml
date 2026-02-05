@@ -42,7 +42,8 @@ spec:
                 - ALL
             privileged: false
             readOnlyRootFilesystem: true
-          image: checkoutservice
+          image: nagu0087/checkoutservice:1.0
+          imagePullPolicy: Always
           ports:
           - containerPort: 5050
           readinessProbe:

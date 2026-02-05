@@ -42,7 +42,8 @@ spec:
               - ALL
           privileged: false
           readOnlyRootFilesystem: true
-        image: shippingservice
+        image: nagu0087/shippingservice:1.0
+        imagePullPolicy: Always
         ports:
         - containerPort: 50051
         env:
